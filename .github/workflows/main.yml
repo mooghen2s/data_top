@@ -14,19 +14,24 @@ jobs:
       run: |
         #python main.py ${{ matrix.number }}
         echo test
-    - name: Run Parallel Job
+    - name: Generate Output
+      id: generate_output
       run: |
         echo asd ${{ matrix.number }} > ${{ matrix.number }}
-        ID${{ matrix.number }}=cat ${{ matrix.number }}
+        ID=$(cat ${{ matrix.number }})
         echo "testmo-run-id=$ID" >> $GITHUB_OUTPUT
+
   parallel:
     needs: parallel-jobs
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        number: [1, 2]
     steps:
     - uses: actions/checkout@v3
-    - name: Run Parallel Job
+    - name: Retrieve Output
       run: |
-        echo "${{ needs.parallel-jobs.outputs.testmo-run-id${{ matrix.number }} }}"
+        echo "${{ needs.parallel-jobs.outputs['generate_output'][matrix.number].testmo-run-id }}"
         git config user.name github-actions
         git config user.email github-actions@github.com
         #git add output_${{ matrix.number }}.dat
