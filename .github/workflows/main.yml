@@ -8,8 +8,7 @@ jobs:
     strategy:
       matrix:
         number: [1, 2]
-    outputs:
-      testmo-run-id-${{ matrix.number }}: ${{ steps.set-output.outputs.testmo-run-id }}
+    
     steps:
     - uses: actions/checkout@v3
     - name: Run Parallel Job
@@ -22,7 +21,8 @@ jobs:
       run: |
         ID=$(cat ${{ matrix.number }})
         echo "testmo-run-id=$ID" >> $GITHUB_OUTPUT
-
+    outputs:
+      testmo-run-id-${{ matrix.number }}: ${{ steps.set-output.outputs.testmo-run-id }}
   parallel:
     needs: parallel-jobs
     runs-on: ubuntu-latest
