@@ -20,13 +20,12 @@ jobs:
         echo asd ${{ matrix.number }} > ${{ matrix.number }}
         ID=$(cat ${{ matrix.number }})
         echo "testmo-run-id=$ID" >> $GITHUB_OUTPUT
+    - run: |
+        echo "${{ steps.matrix.outputs.generate_output }}"
 
   parallel:
     needs: parallel-jobs
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        number: [1, 2]
     steps:
     - uses: actions/checkout@v3
     - name: Retrieve Output
