@@ -9,7 +9,6 @@ jobs:
       matrix:
         number: [1, 2]
     steps:
-    - uses: actions/checkout@v3
     - name: Run Parallel Job
       run: echo "test"
     - name: Create and Save ID File
@@ -25,15 +24,15 @@ jobs:
     needs: parallel-jobs
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
     - name: Print Outputs
       run: |
         echo "ID for job 1: ${{ needs.parallel-jobs.outputs['testmo-run-id-1'] }}"
         echo "ID for job 2: ${{ needs.parallel-jobs.outputs['testmo-run-id-2'] }}"
     - name: Configure Git
       run: |
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        git add output_*.dat
-        git commit -m "Generated IDs"
-        git push
+        ls
+        #git config user.name github-actions
+        #git config user.email github-actions@github.com
+        #git add output_*.dat
+        #git commit -m "Generated IDs"
+        #git push
