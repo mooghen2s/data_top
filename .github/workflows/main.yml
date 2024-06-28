@@ -8,22 +8,18 @@ jobs:
     strategy:
       matrix:
         number: [1, 2]
-    outputs:
-      testmo-run-id-1: ${{ steps.set-output-1.outputs.testmo-run-id }}
-      testmo-run-id-2: ${{ steps.set-output-2.outputs.testmo-run-id }}
     steps:
     - uses: actions/checkout@v3
     - name: Run Parallel Job
       run: echo "test"
     - name: Create and Save ID File
-      id: create-file-${{ matrix.number }}
       run: echo "asd ${{ matrix.number }}" > output_${{ matrix.number }}.dat
     - name: Read ID File and Set Output
-      id: set-output-${{ matrix.number }}
+      id: set-output
       run: |
         ID=$(cat output_${{ matrix.number }}.dat)
-        echo "testmo-run-id=$ID" >> $GITHUB_ENV
-        echo "::set-output name=testmo-run-id::$ID"
+        echo "testmo-run-id-${{ matrix.number }}=$ID" >> $GITHUB_ENV
+        echo "::set-output name=testmo-run-id::testmo-run-id-${{ matrix.number }}=$ID"
 
   parallel:
     needs: parallel-jobs
@@ -32,8 +28,8 @@ jobs:
     - uses: actions/checkout@v3
     - name: Print Outputs
       run: |
-        echo "ID for job 1: ${{ needs.parallel-jobs.outputs.testmo-run-id-1 }}"
-        echo "ID for job 2: ${{ needs.parallel-jobs.outputs.testmo-run-id-2 }}"
+        echo "ID for job 1: ${{ needs.parallel-jobs.outputs['testmo-run-id-1'] }}"
+        echo "ID for job 2: ${{ needs.parallel-jobs.outputs['testmo-run-id-2'] }}"
     - name: Configure Git
       run: |
         git config user.name github-actions
