@@ -16,14 +16,17 @@ jobs:
         echo test
     - name: Run Parallel Job
       run: |
-        echo asd > ${{ matrix.number }}
+        echo asd ${{ matrix.number }} > ${{ matrix.number }}
+        ID${{ matrix.number }}=cat ${{ matrix.number }}
+        echo "testmo-run-id=$ID" >> $GITHUB_OUTPUT
   parallel:
     needs: parallel-jobs
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
     - name: Run Parallel Job
       run: |
-        ls
+        echo "${{ needs.parallel-jobs.outputs.testmo-run-id${{ matrix.number }} }}"
         git config user.name github-actions
         git config user.email github-actions@github.com
         #git add output_${{ matrix.number }}.dat
