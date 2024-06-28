@@ -9,7 +9,7 @@ jobs:
       matrix:
         number: [1, 2]
     outputs:
-      testmo-run-id-${{ matrix.number }}: ${{ steps.set-output.outputs.testmo-run-id }}
+      testmo-run-id_${{ matrix.number }}: ${{ steps.set-output.outputs.testmo-run-id }}
     steps:
     - uses: actions/checkout@v3
     - name: Run Parallel Job
@@ -31,7 +31,7 @@ jobs:
     - name: Print Outputs
       run: |
         for number in 1 2; do
-          ID=$(echo "${{ needs.parallel-jobs.outputs['testmo-run-id-' . $number ] }}")
+          ID=$(echo "${{ needs.parallel-jobs.outputs['testmo-run-id_'$number] }}")
           echo "ID for job $number: $ID"
         done
     - name: Configure Git
