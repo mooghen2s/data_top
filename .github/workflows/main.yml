@@ -1,0 +1,27 @@
+name: Parallel Jobs Example
+
+on: [push]
+
+jobs:
+  parallel-jobs:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        number: [1]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run Parallel Job
+      run: |
+        #python main.py ${{ matrix.number }}
+        echo test
+    - name: Run Parallel Job
+      run: |
+        wget https://github.com/tahoma2d/rhubarb-lip-sync/releases/download/v1.13.0/rhubarb-lip-sync-tahoma2d-linux.zip
+        unzip rhubarb-lip-sync-tahoma2d-linux.zip
+        rm -f rhubarb-lip-sync-tahoma2d-linux.zip
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        #git add output_${{ matrix.number }}.dat
+        git add .
+        git commit -m "generated"
+        git push
