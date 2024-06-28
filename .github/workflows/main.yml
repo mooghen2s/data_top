@@ -41,8 +41,8 @@ jobs:
     - name: Print Outputs
       run: |
         for number in 1 2; do
-          ID=$(echo "${{ needs.parallel-jobs.outputs['testmo-run-id-'$number] }}")
-          echo "ID for job $number: $ID"
+          ID=$(echo "${{ needs.parallel-jobs.outputs['testmo-run-id-'${number}] }}")
+          echo "ID for job ${number}: ${ID}"
         done
     - name: Configure Git
       run: |
