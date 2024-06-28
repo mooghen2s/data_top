@@ -19,7 +19,7 @@ jobs:
       run: |
         ID=$(cat output_${{ matrix.number }}.dat)
         echo "testmo-run-id-${{ matrix.number }}=$ID" >> $GITHUB_ENV
-        echo "::set-output name=testmo-run-id::testmo-run-id-${{ matrix.number }}=$ID"
+        echo "testmo-run-id-${{ matrix.number }}=$ID" >> $GITHUB_OUTPUT
 
   parallel:
     needs: parallel-jobs
