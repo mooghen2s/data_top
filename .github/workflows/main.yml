@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        number: [1]
+        number: [1, 2]
     steps:
     - uses: actions/checkout@v3
     - name: Run Parallel Job
@@ -16,12 +16,17 @@ jobs:
         echo test
     - name: Run Parallel Job
       run: |
-        wget https://github.com/tahoma2d/rhubarb-lip-sync/releases/download/v1.13.0/rhubarb-lip-sync-tahoma2d-linux.zip
-        unzip rhubarb-lip-sync-tahoma2d-linux.zip
-        rm -f rhubarb-lip-sync-tahoma2d-linux.zip
+        echo asd > ${{ matrix.number }}
+  parallel:
+    needs: parallel-jobs
+    runs-on: ubuntu-latest
+    steps:
+    - name: Run Parallel Job
+      run: |
+        ls
         git config user.name github-actions
         git config user.email github-actions@github.com
         #git add output_${{ matrix.number }}.dat
-        git add .
-        git commit -m "generated"
-        git push
+        #git add .
+        #git commit -m "generated"
+        #git push
