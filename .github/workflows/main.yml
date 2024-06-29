@@ -8,7 +8,7 @@ jobs:
     strategy:
       max-parallel: 8
       matrix:
-        number: [1, 48, 57]
+        number: [57]
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5.1.0
@@ -45,7 +45,6 @@ jobs:
       env:
           matrix_number: ${{ matrix.number }}
       run: |
-        python -c "import shutil; shutil.copy(f'output_{matrix_number}.dat', f'data/output_{matrix_number}.dat')"
         cd data
         date +%s >> README.md
         sleep 4
@@ -56,7 +55,6 @@ jobs:
       env:
           matrix_number: ${{ matrix.number }}
       run: |
-        python -c "import shutil; shutil.copy(f'output_{matrix_number}.dat', f'data/output_{matrix_number}.dat')"
         cd data
         sleep 6
         date +%s >> README.md
@@ -67,7 +65,6 @@ jobs:
       env:
           matrix_number: ${{ matrix.number }}
       run: |
-        python -c "import shutil; shutil.copy(f'output_{matrix_number}.dat', f'data/output_{matrix_number}.dat')"
         cd data
         sleep 8
         date +%s >> README.md
@@ -78,7 +75,6 @@ jobs:
       env:
           matrix_number: ${{ matrix.number }}
       run: |
-        python -c "import shutil; shutil.copy(f'output_{matrix_number}.dat', f'data/output_{matrix_number}.dat')"
         cd data
         sleep 10
         date +%s >> README.md
