@@ -15,7 +15,6 @@ def main() -> None:
         file.write(chunk["data"])
       elif chunk["type"] == "WordBoundary":
         continue
-  print(f'done for: {audio}')
 
   
 if __name__ == "__main__":
