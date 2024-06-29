@@ -6,6 +6,7 @@ jobs:
   parallel-jobs:
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: 8
       matrix:
         number: [64, 66, 67, 70, 71, 73, 74, 77, 79, 80, 81, 82, 83, 84, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
     steps:
@@ -14,12 +15,11 @@ jobs:
       with:
         python-version: '3.8' 
     - run: |
-        #apt update
         sudo apt install ffmpeg -y
     - name: Create and Save ID File
       run: |
-        wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.txt
-        wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.mp3
+        wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.txt || true
+        wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.mp3 || true
         #python main.py ${{ matrix.number }}
         date +%s > output_${{ matrix.number }}.dat
         
@@ -37,7 +37,7 @@ jobs:
         git config --global user.email "juaimahen.a52@gmail.com"
         git add 'output_${{ matrix.number }}.dat' 'README.md'
         git commit -m "test ${{ matrix.number }}"
-        git push -f
+        git push -f 
         sleep 2
     - name: Push to GitHub (Attempt 2)
       id: push_attempt_2
@@ -46,8 +46,7 @@ jobs:
         cd data
         date +%s >> README.md
         sleep 4
-        git push -f
-        exit 0
+        git push -f || true
     - name: Push to GitHub (Attempt 3)
       id: push_attempt_3
       if: ${{ failure() && steps.push_attempt_2.conclusion == 'failure' }}
@@ -55,7 +54,7 @@ jobs:
         cd data
         sleep 6
         date +%s >> README.md
-        git push -f
+        git push -f || true
     - name: Push to GitHub (Attempt 4)
       id: push_attempt_4
       if: ${{ failure() && steps.push_attempt_3.conclusion == 'failure' }}
@@ -63,7 +62,7 @@ jobs:
         cd data
         sleep 8
         date +%s >> README.md
-        git push -f
+        git push -f || true
     - name: Push to GitHub (Attempt 5)
       id: push_attempt_5
       if: ${{ failure() && steps.push_attempt_4.conclusion == 'failure' }}
@@ -71,12 +70,12 @@ jobs:
         cd data
         sleep 10
         date +%s >> README.md
-        git push -f
+        git push -f || true
     - name: Push to GitHub (Attempt 6)
       id: done_attemp
       if: ${{ failure() && steps.push_attempt_5.conclusion == 'failure' }}
-      run: exit 0
+      run: exit 0 || true
     - name: Push to GitHub (Attempt 6)
       id: done_attemp_1
       if: always()
-      run: ls 
+      run: ls
