@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        number: [58, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
+        number: [64, 66, 67, 68, 70, 71, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5.1.0
@@ -20,7 +20,8 @@ jobs:
       run: |
         wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.txt
         wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.mp3
-        python main.py ${{ matrix.number }}
+        #python main.py ${{ matrix.number }}
+        echo test > output_${{ matrix.number }}.dat
     - name: Push to GitHub (Attempt 1)
       id: push_attempt_1
       run: |
@@ -38,8 +39,6 @@ jobs:
       if: failure()
       run: |
         cd data
-        git add output_${{ matrix.number }}.dat
-        git commit -am "test ke 2 no ${{ matrix.number }}"
         git push -f
         sleep 4
     - name: Push to GitHub (Attempt 3)
@@ -47,8 +46,6 @@ jobs:
       if: failure()
       run: |
         cd data
-        git add output_${{ matrix.number }}.dat
-        git commit -am "test ke 3 no ${{ matrix.number }}"
         git push -f
         sleep 3
     - name: Push to GitHub (Attempt 4)
@@ -56,8 +53,6 @@ jobs:
       if: failure()
       run: |
         cd data
-        git add output_${{ matrix.number }}.dat
-        git commit -am "test ke 4 no ${{ matrix.number }}"
         git push -f
         sleep 4
     - name: Push to GitHub (Attempt 5)
@@ -65,8 +60,6 @@ jobs:
       if: failure()
       run: |
         cd data
-        git add output_${{ matrix.number }}.dat
-        git commit -am "test ke 5 no ${{ matrix.number }}"
         git push -f
         sleep 5
     - run: echo done
