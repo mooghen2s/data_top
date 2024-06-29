@@ -37,7 +37,7 @@ jobs:
         git config --global user.email "juaimahen.a52@gmail.com"
         git add 'output_${{ matrix.number }}.dat' 'README.md'
         git commit -m "test ${{ matrix.number }}"
-        #git push -f 
+        git push -f 
         sleep 2
     - name: Push to GitHub (Attempt 2)
       id: push_attempt_2
