@@ -1,6 +1,9 @@
 name: Parallel Jobs Example
 
-on: [push]
+on:
+  push:
+    branches:
+      - "main"
 jobs:
   parallel-jobs:
     runs-on: ubuntu-latest
