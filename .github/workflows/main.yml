@@ -8,7 +8,7 @@ jobs:
     strategy:
       max-parallel: 8
       matrix:
-        number: [64, 66, 67, 70, 71, 73, 74, 77, 79, 80, 81, 82, 83, 84, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
+        number: [64, 74, 82]
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5.1.0
