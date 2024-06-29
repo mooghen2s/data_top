@@ -62,4 +62,7 @@ jobs:
         cd data
         git push -f
         sleep 5
-    - run: echo done
+    - name: Push to GitHub (Attempt 5)
+      id: push_susces_5
+      if: success()
+      run: echo done
