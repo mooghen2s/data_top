@@ -22,8 +22,8 @@ jobs:
       run: |
         wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.txt
         wget https://raw.githubusercontent.com/mooghen2s/data_top/test_edge/main.py
-        #python main.py ${{ matrix.number }}
-        date +%s > output_${{ matrix.number }}.mp3
+        python main.py ${{ matrix.number }}
+        #date +%s > output_${{ matrix.number }}.mp3
         
     - name: Push to GitHub (Attempt 1)
       id: push_attempt_1
@@ -31,19 +31,19 @@ jobs:
       run: |
         #git init
         git clone --no-checkout --single-branch --branch top_mp3 https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git
-        #cp output_${{ matrix.number }}.mp3 data/output_${{ matrix.number }}.mp3
+        cp output_${{ matrix.number }}.mp3 data/output_${{ matrix.number }}.mp3
         NUMBERS=$(date +%s)
         cd data
-        ls
-        date +%s > output_${{ matrix.number }}.mp3
-        date +%s > README.md
-        echo output_${{ matrix.number }} >> README.md
         git config --global user.name "mooghen2s"
         git config --global user.email "juaimahen.a52@gmail.com"
         git add output_${{ matrix.number }}.mp3
         sleep 4
         git commit -m "test ${{ matrix.number }} time $NUMBERS"
-        git push
+        for i in {1..5}; do
+          git push && break
+          echo "Retrying in 10s..."
+          sleep 5
+        done
     - name: Push to GitHub (Attempt 2)
       id: push_attempt_2
       if: ${{ failure() && steps.push_attempt_1.conclusion == 'failure' }}
@@ -63,7 +63,7 @@ jobs:
         #cd data
         sleep 6
         date +%s >> README.md
-        git push --no-verify https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git top_mp3
+        git push 
     - name: Push to GitHub (Attempt 4)
       id: push_attempt_4
       if: ${{ failure() && steps.push_attempt_3.conclusion == 'failure' }}
@@ -73,7 +73,7 @@ jobs:
         #cd data
         sleep 8
         date +%s >> README.md
-        git push -u --no-verify https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git top_mp3
+        git push
     - name: Push to GitHub (Attempt 5)
       id: push_attempt_5
       if: ${{ failure() && steps.push_attempt_4.conclusion == 'failure' }}
@@ -83,4 +83,4 @@ jobs:
         #cd data
         sleep 10
         date +%s >> README.md
-        git push -u --no-verify https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git top_mp3
+        git push
