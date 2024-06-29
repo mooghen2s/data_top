@@ -9,30 +9,21 @@ jobs:
       matrix:
         number: [1, 2]
     steps:
+    - uses: actions/checkout@v4
     - name: Run Parallel Job
       run: echo "test"
     - name: Create and Save ID File
       run: echo "asd ${{ matrix.number }}" > output_${{ matrix.number }}.dat
     - name: Read ID File and Set Output
-      id: set-output
-      run: |
-        IDS=$(cat output_${{ matrix.number }}.dat)
-        echo "testmo-run-id-${{ matrix.number }}=$IDS" >> $GITHUB_ENV
-        echo "testmo-run-id-${{ matrix.number }}=$IDS" >> $GITHUB_OUTPUT
-
-  parallel:
-    needs: parallel-jobs
-    runs-on: ubuntu-latest
-    steps:
-    - name: Print Outputs
-      run: |
-        echo "ID for job 1: ${{ needs.parallel-jobs.outputs['testmo-run-id-1'] }}"
-        echo "ID for job 2: ${{ needs.parallel-jobs.outputs['testmo-run-id-2'] }}"
-    - name: Configure Git
       run: |
         ls
-        #git config user.name github-actions
-        #git config user.email github-actions@github.com
-        #git add output_*.dat
-        #git commit -m "Generated IDs"
-        #git push
+    - name: push to github
+      run: |
+        git clone --single-branch --branch test https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git
+        cp output_${{ matrix.number }}.dat data/output_${{ matrix.number }}.dat
+        cd data
+        git config --global user.name "mooghen2s"
+        git config --global user.email "juaimahen.a52@gmail.com"
+        git add output_${{ matrix.number }}.dat
+        git commit -am "test ${{ matrix.number }}"
+        git push
