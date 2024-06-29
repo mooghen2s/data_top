@@ -34,7 +34,7 @@ jobs:
         #cp output_${{ matrix.number }}.mp3 data/output_${{ matrix.number }}.mp3
         NUMBERS=$(date +%s)
         date +%s > output_${{ matrix.number }}.mp3
-        #cd data
+        cd data
         date +%s > README.md
         echo output_${{ matrix.number }} >> README.md
         git config --global user.name "mooghen2s"
@@ -49,7 +49,7 @@ jobs:
       env:
           matrix_number: ${{ matrix.number }}
       run: |
-        #cd data
+        cd data
         date +%s >> README.md
         sleep 4
         git push
