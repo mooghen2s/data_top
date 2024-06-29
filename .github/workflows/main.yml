@@ -27,6 +27,8 @@ jobs:
         git clone --single-branch --branch test https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git
         cp output_${{ matrix.number }}.dat data/output_${{ matrix.number }}.dat
         cd data
+        git config --global user.name "mooghen2s"
+        git config --global user.email "juaimahen.a52@gmail.com"
         git add output_${{ matrix.number }}.dat
         git commit -am "test ${{ matrix.number }}"
         git push -f
