@@ -10,10 +10,18 @@ jobs:
         number: [1, 2]
     steps:
     - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5.1.0
+      with:
+        python-version: '3.8' 
     - name: Run Parallel Job
-      run: echo "test"
+      run: wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.txt
+    - name: download mp3
+      run: wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.mp3
     - name: Create and Save ID File
-      run: echo "asd ${{ matrix.number }}" > output_${{ matrix.number }}.dat
+      run: |
+        ls
+        #python main.py ${{ matrix.number }}
+        #echo "asd ${{ matrix.number }}" > output_${{ matrix.number }}.dat
     - name: Read ID File and Set Output
       run: |
         ls
@@ -26,4 +34,4 @@ jobs:
         git config --global user.email "juaimahen.a52@gmail.com"
         git add output_${{ matrix.number }}.dat
         git commit -am "test ${{ matrix.number }}"
-        git push
+        #git push
