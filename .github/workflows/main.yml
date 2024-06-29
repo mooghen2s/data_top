@@ -39,8 +39,8 @@ jobs:
         git config --global user.name "mooghen2s"
         git config --global user.email "juaimahen.a52@gmail.com"
         git branch -m top_mp3
-        git add 'output_${{ matrix.number }}.mp3' 'README.md'
-        git commit -m "test ${{ matrix.number }} time $NUMBERS"
+        #git add 'output_${{ matrix.number }}.mp3' 'README.md'
+        git commit -m "test ${{ matrix.number }} time $NUMBERS" 'output_${{ matrix.number }}.mp3'
         git push https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git top_mp3
         sleep 2
     - name: Push to GitHub (Attempt 2)
