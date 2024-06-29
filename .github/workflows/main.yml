@@ -53,7 +53,24 @@ jobs:
         cd data
         date +%s >> README.md
         git push -f
-        sleep 3
-    - name: Push to GitHub (Attempt 3)
+        sleep 6
+    - name: Push to GitHub (Attempt 4)
+      id: push_attempt_4
+      if: ${{ failure() && steps.push_attempt_3.conclusion == 'failure' }}
+      run: |
+        cd data
+        date +%s >> README.md
+        git push -f
+        sleep 8
+    - name: Push to GitHub (Attempt 5)
+      id: push_attempt_5
+      if: ${{ failure() && steps.push_attempt_4.conclusion == 'failure' }}
+      run: |
+        cd data
+        date +%s >> README.md
+        git push -f
+        sleep 10
+    - name: Push to GitHub (Attempt 6)
       id: done_attemp
+      if: ${{ failure() && steps.push_attempt_5.conclusion == 'failure' }}
       run: echo done
