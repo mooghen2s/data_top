@@ -11,7 +11,7 @@ jobs:
     strategy:
       max-parallel: 8
       matrix:
-        number: [57]
+        number: [2]
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5.1.0
@@ -37,7 +37,7 @@ jobs:
         echo output_${{ matrix.number }} >> README.md
         git config --global user.name "mooghen2s"
         git config --global user.email "juaimahen.a52@gmail.com"
-        git add 'output_${{ matrix.number }}.dat' 'README.md'
+        git add 'output_${{ matrix.number }}.mp3' 'README.md'
         git commit -m "test ${{ matrix.number }}"
         git push -f 
         sleep 2
