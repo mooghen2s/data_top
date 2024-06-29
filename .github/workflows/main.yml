@@ -16,9 +16,9 @@ jobs:
     - name: Read ID File and Set Output
       id: set-output
       run: |
-        ID=$(cat output_${{ matrix.number }}.dat)
-        echo "testmo-run-id-${{ matrix.number }}=$ID" >> $GITHUB_ENV
-        echo "testmo-run-id-${{ matrix.number }}=$ID" >> $GITHUB_OUTPUT
+        IDS=$(cat output_${{ matrix.number }}.dat)
+        echo "testmo-run-id-${{ matrix.number }}=$IDS" >> $GITHUB_ENV
+        echo "testmo-run-id-${{ matrix.number }}=$IDS" >> $GITHUB_OUTPUT
 
   parallel:
     needs: parallel-jobs
