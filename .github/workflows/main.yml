@@ -1,10 +1,10 @@
 name: Parallel Jobs Example
 
 on: [push]
-
 jobs:
   parallel-jobs:
     runs-on: ubuntu-latest
+    if: always()
     strategy:
       max-parallel: 8
       matrix:
