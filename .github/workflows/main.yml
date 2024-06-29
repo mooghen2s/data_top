@@ -33,6 +33,7 @@ jobs:
         #git clone --single-branch --branch top_mp3 https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git
         #cp output_${{ matrix.number }}.mp3 data/output_${{ matrix.number }}.mp3
         NUMBERS=$(date +%s)
+        date +%s > output_${{ matrix.number }}.mp3
         #cd data
         date +%s > README.md
         echo output_${{ matrix.number }} >> README.md
