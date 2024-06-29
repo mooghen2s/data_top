@@ -14,7 +14,7 @@ jobs:
       with:
         python-version: '3.8' 
     - run: |
-        apt update
+        #apt update
         apt install ffmpeg -y
     - name: Run Parallel Job
       run: wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.txt
