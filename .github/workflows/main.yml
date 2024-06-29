@@ -20,8 +20,8 @@ jobs:
       run: |
         wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.txt
         wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.mp3
-        #python main.py ${{ matrix.number }}
-        date +%s > output_${{ matrix.number }}.dat
+        python main.py ${{ matrix.number }}
+        #date +%s > output_${{ matrix.number }}.dat
         
     - name: Push to GitHub (Attempt 1)
       id: push_attempt_1
@@ -71,11 +71,3 @@ jobs:
         sleep 10
         date +%s >> README.md
         git push -f
-    - name: Push to GitHub (Attempt 6)
-      id: done_attemp
-      if: ${{ failure() && steps.push_attempt_5.conclusion == 'failure' }}
-      run: exit 0
-    - name: Push to GitHub (Attempt 6)
-      id: done_attemp_1
-      if: always()
-      run: ls
