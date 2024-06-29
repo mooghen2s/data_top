@@ -43,21 +43,21 @@ jobs:
         sleep 4
     - name: Push to GitHub (Attempt 3)
       id: push_attempt_3
-      if: failure(push_attempt_1) && failure(push_attempt_2)
+      if: failure() && steps.push_attempt_2.outcome != 'success'
       run: |
         cd data
         git push -f
         sleep 3
     - name: Push to GitHub (Attempt 4)
-      id: failure(push_attempt_1) && failure(push_attempt_2) && failure(push_attempt_3)
-      if: failure()
+      id: push_attempt_4
+      if: failure() && steps.push_attempt_3.outcome != 'success'
       run: |
         cd data
         git push -f
         sleep 4
     - name: Push to GitHub (Attempt 5)
-      id: failure(push_attempt_1) && failure(push_attempt_2) && failure(push_attempt_3) && failure(push_attempt_4)
-      if: failure()
+      id: push_attempt_5
+      if: failure() && steps.push_attempt_4.outcome != 'success'
       run: |
         cd data
         git push -f
