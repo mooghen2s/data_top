@@ -8,7 +8,7 @@ jobs:
     strategy:
       max-parallel: 8
       matrix:
-        number: [45, 46, 47, 48, 53, 57, 105, 109]
+        number: [1, 48, 57]
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5.1.0
