@@ -21,65 +21,28 @@ jobs:
       run: |
         wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.txt
         wget https://raw.githubusercontent.com/mooghen2s/data_top/test_edge/main.py
-        python main.py ${{ matrix.number }}
-        #date +%s > output_${{ matrix.number }}.mp3
+        #python main.py ${{ matrix.number }}
+        date +%s > output_${{ matrix.number }}.mp3
         
-    - name: Push to GitHub (Attempt 1)
-      id: push_attempt_1
-      if: always()
+    - name: Clone target repository without checking out files
       run: |
-        #git init
-        git clone --no-checkout --single-branch --branch top_mp3 https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git
-        cp output_${{ matrix.number }}.mp3 data/output_${{ matrix.number }}.mp3
-        NUMBERS=$(date +%s)
-        cd data
-        git config --global user.name "mooghen2s"
-        git config --global user.email "juaimahen.a52@gmail.com"
+        git clone --no-checkout --single-branch --branch main https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git target_repo
+
+    - name: Copy MP3 file to target repository
+      run: |
+        cp output_${{ matrix.number }}.mp3 target_repo/output_${{ matrix.number }}.mp3
+
+    - name: Commit and Push changes to target repository
+      run: |
+        cd target_repo
+        git config user.name "mooghen2s"
+        git config user.email "juaimahen.a52@gmail.com"
         git add output_${{ matrix.number }}.mp3
-        sleep 4
-        git commit -m "test ${{ matrix.number }} time $NUMBERS"
+        git commit -m "Add output_${{ matrix.number }}.mp3 at $(date +%s)"
         for i in {1..15}; do
           git push && break
           echo "Retrying in 10s..."
           sleep 5
         done
-    - name: Push to GitHub (Attempt 2)
-      id: push_attempt_2
-      if: ${{ failure() && steps.push_attempt_1.conclusion == 'failure' }}
       env:
-          matrix_number: ${{ matrix.number }}
-      run: |
-        cd data
-        date +%s >> README.md
-        sleep 4
-        git push
-    - name: Push to GitHub (Attempt 3)
-      id: push_attempt_3
-      if: ${{ failure() && steps.push_attempt_2.conclusion == 'failure' }}
-      env:
-          matrix_number: ${{ matrix.number }}
-      run: |
-        #cd data
-        sleep 6
-        date +%s >> README.md
-        git push 
-    - name: Push to GitHub (Attempt 4)
-      id: push_attempt_4
-      if: ${{ failure() && steps.push_attempt_3.conclusion == 'failure' }}
-      env:
-          matrix_number: ${{ matrix.number }}
-      run: |
-        #cd data
-        sleep 8
-        date +%s >> README.md
-        git push
-    - name: Push to GitHub (Attempt 5)
-      id: push_attempt_5
-      if: ${{ failure() && steps.push_attempt_4.conclusion == 'failure' }}
-      env:
-          matrix_number: ${{ matrix.number }}
-      run: |
-        #cd data
-        sleep 10
-        date +%s >> README.md
-        git push
+        TOKEN: ${{ secrets.TOKEN }}
