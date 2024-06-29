@@ -43,7 +43,7 @@ jobs:
         git add output_${{ matrix.number }}.mp3
         sleep 4
         git commit -m "test ${{ matrix.number }} time $NUMBERS"
-        git push -f -u --no-verify https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git top_mp3
+        git push --no-verify https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git top_mp3
     - name: Push to GitHub (Attempt 2)
       id: push_attempt_2
       if: ${{ failure() && steps.push_attempt_1.conclusion == 'failure' }}
@@ -53,7 +53,7 @@ jobs:
         #cd data
         date +%s >> README.md
         sleep 4
-        git push -f -u --no-verify https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git top_mp3
+        git push -u --no-verify https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git top_mp3
     - name: Push to GitHub (Attempt 3)
       id: push_attempt_3
       if: ${{ failure() && steps.push_attempt_2.conclusion == 'failure' }}
@@ -63,7 +63,7 @@ jobs:
         #cd data
         sleep 6
         date +%s >> README.md
-        git push -f -u --no-verify https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git top_mp3
+        git push -u --no-verify https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git top_mp3
     - name: Push to GitHub (Attempt 4)
       id: push_attempt_4
       if: ${{ failure() && steps.push_attempt_3.conclusion == 'failure' }}
@@ -73,7 +73,7 @@ jobs:
         #cd data
         sleep 8
         date +%s >> README.md
-        git push -f -u --no-verify https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git top_mp3
+        git push -u --no-verify https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git top_mp3
     - name: Push to GitHub (Attempt 5)
       id: push_attempt_5
       if: ${{ failure() && steps.push_attempt_4.conclusion == 'failure' }}
@@ -83,4 +83,4 @@ jobs:
         #cd data
         sleep 10
         date +%s >> README.md
-        git push -f -u --no-verify https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git top_mp3
+        git push -u --no-verify https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git top_mp3
