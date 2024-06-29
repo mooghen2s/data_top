@@ -8,7 +8,7 @@ jobs:
     strategy:
       max-parallel: 8
       matrix:
-        number: [64, 74, 82]
+        number: [82]
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5.1.0
@@ -37,12 +37,15 @@ jobs:
         git config --global user.email "juaimahen.a52@gmail.com"
         git add 'output_${{ matrix.number }}.dat' 'README.md'
         git commit -m "test ${{ matrix.number }}"
-        git push -f 
+        #git push -f 
         sleep 2
     - name: Push to GitHub (Attempt 2)
       id: push_attempt_2
       if: ${{ failure() && steps.push_attempt_1.conclusion == 'failure' }}
+      env:
+          matrix_number: ${{ matrix.number }}
       run: |
+        python -c "import shutil; shutil.copy(f'output_{matrix_number}.dat', f'data/output_{matrix_number}.dat')"
         cd data
         date +%s >> README.md
         sleep 4
@@ -50,7 +53,10 @@ jobs:
     - name: Push to GitHub (Attempt 3)
       id: push_attempt_3
       if: ${{ failure() && steps.push_attempt_2.conclusion == 'failure' }}
+      env:
+          matrix_number: ${{ matrix.number }}
       run: |
+        python -c "import shutil; shutil.copy(f'output_{matrix_number}.dat', f'data/output_{matrix_number}.dat')"
         cd data
         sleep 6
         date +%s >> README.md
@@ -58,7 +64,10 @@ jobs:
     - name: Push to GitHub (Attempt 4)
       id: push_attempt_4
       if: ${{ failure() && steps.push_attempt_3.conclusion == 'failure' }}
+      env:
+          matrix_number: ${{ matrix.number }}
       run: |
+        python -c "import shutil; shutil.copy(f'output_{matrix_number}.dat', f'data/output_{matrix_number}.dat')"
         cd data
         sleep 8
         date +%s >> README.md
@@ -66,7 +75,10 @@ jobs:
     - name: Push to GitHub (Attempt 5)
       id: push_attempt_5
       if: ${{ failure() && steps.push_attempt_4.conclusion == 'failure' }}
+      env:
+          matrix_number: ${{ matrix.number }}
       run: |
+        python -c "import shutil; shutil.copy(f'output_{matrix_number}.dat', f'data/output_{matrix_number}.dat')"
         cd data
         sleep 10
         date +%s >> README.md
