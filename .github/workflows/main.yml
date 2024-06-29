@@ -33,6 +33,7 @@ jobs:
         git add output_${{ matrix.number }}.dat
         git commit -am "test ${{ matrix.number }}"
         git push -f
+        sleep 2
     - name: Push to GitHub (Attempt 2)
       id: push_attempt_2
       if: failure()
@@ -45,6 +46,7 @@ jobs:
         git add output_${{ matrix.number }}.dat
         git commit -am "test ${{ matrix.number }}"
         git push -f
+        sleep 2
     - name: Push to GitHub (Attempt 3)
       id: push_attempt_3
       if: failure()
@@ -57,6 +59,7 @@ jobs:
         git add output_${{ matrix.number }}.dat
         git commit -am "test ${{ matrix.number }}"
         git push -f
+        sleep 2
     - name: Push to GitHub (Attempt 4)
       id: push_attempt_4
       if: failure()
@@ -69,6 +72,7 @@ jobs:
         git add output_${{ matrix.number }}.dat
         git commit -am "test ${{ matrix.number }}"
         git push -f
+        sleep 2
     - name: Push to GitHub (Attempt 5)
       id: push_attempt_5
       if: failure()
@@ -81,4 +85,5 @@ jobs:
         git add output_${{ matrix.number }}.dat
         git commit -am "test ${{ matrix.number }}"
         git push -f
+        sleep 2
     - run: echo done
