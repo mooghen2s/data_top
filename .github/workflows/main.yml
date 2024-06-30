@@ -22,8 +22,8 @@ jobs:
       run: |
         wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.txt
         wget https://raw.githubusercontent.com/mooghen2s/data_top/test_edge/main.py
-        python main.py ${{ matrix.number }}
-        #date +%s > output_${{ matrix.number }}.mp3
+        #python main.py ${{ matrix.number }}
+        date +%s > output_${{ matrix.number }}.mp3
         #git clone --no-checkout --single-branch --branch top_mp3 https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git
     - name: Upload File to GitHub
       uses: actions/upload-artifact@v3
