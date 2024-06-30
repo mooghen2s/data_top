@@ -27,23 +27,12 @@ jobs:
         
     - name: Copy MP3 file to target repository
       run: |
-        git clone --no-checkout --single-branch --branch top_mp3 https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git
-        cd data
-        git config user.name "mooghen2s"
-        git config user.email "juaimahen.a52@gmail.com"
-        git status
-        
-
-    - name: Commit and Push changes to target repository
-      run: |
-        cp output_${{ matrix.number }}.mp3 data/output_${{ matrix.number }}.mp3
-        cd data
-        #git add output_${{ matrix.number }}.mp3
-        git status
-        git commit -m "Add output_${{ matrix.number }}.mp3 at $(date +%s)" output_${{ matrix.number }}.mp3
-        git status
-        for i in {1..15}; do
-          git push && break
-          echo "Retrying in 10s..."
-          sleep 5
-        done
+        #git clone --no-checkout --single-branch --branch top_mp3 https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git
+        curl -X PUT -H "Authorization: token ${{ secrets.TOKEN }}" \
+          -H "Content-Type: application/json" \
+          -d '{
+           "message": "Add audio_file.mp3",
+           "content": "'$(base64 -w 0 output_${{ matrix.number }}.mp3)'",
+           "branch": "top_mp3"
+            }' \
+        https://api.github.com/repos/mooghen2s/data/contents/output_${{ matrix.number }}.mp3
