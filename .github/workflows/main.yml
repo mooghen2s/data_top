@@ -40,6 +40,9 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           path: out
+      - name: test
+        id: ot_ran
+        run:  echo "ta_for_release=$(date +%s" >> $GITHUB_OUTPUT
       - name: Build project # This would actually build your project, using zip for an example artifact
         run: |
           zip -r build.zip out/
@@ -49,8 +52,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          tag_name: v1.1
-          release_name: Release v1.1
+          tag_name: v1.${{ steps.ot_ran.outputs.ta_for_release }}
+          release_name: Release v1.${{ steps.ot_ran.outputs.ta_for_release }}
           draft: false
           prerelease: false
       - name: Upload Release Asset
