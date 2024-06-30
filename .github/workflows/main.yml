@@ -38,8 +38,10 @@ jobs:
       run: |
         cp output_${{ matrix.number }}.mp3 data/output_${{ matrix.number }}.mp3
         cd data
-        git add output_${{ matrix.number }}.mp3
-        git commit -m "Add output_${{ matrix.number }}.mp3 at $(date +%s)"
+        #git add output_${{ matrix.number }}.mp3
+        git status
+        git commit -m "Add output_${{ matrix.number }}.mp3 at $(date +%s)" 'output_${{ matrix.number }}.mp3'
+        git status
         for i in {1..15}; do
           git push && break
           echo "Retrying in 10s..."
