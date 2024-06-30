@@ -26,7 +26,7 @@ jobs:
         #date +%s > output_${{ matrix.number }}.mp3
         #git clone --no-checkout --single-branch --branch top_mp3 https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git
     - name: Upload File to GitHub
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: output_${{ matrix.number }}.mp3
         path: output_${{ matrix.number }}.mp3
