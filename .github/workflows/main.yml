@@ -42,7 +42,7 @@ jobs:
           path: out
       - name: test
         id: ot_ran
-        run:  echo "ta_for_release=$(date +%s" >> $GITHUB_OUTPUT
+        run:  echo "ta_for_release=$(date +%s)" >> $GITHUB_OUTPUT
       - name: Build project # This would actually build your project, using zip for an example artifact
         run: |
           zip -r build.zip out/
