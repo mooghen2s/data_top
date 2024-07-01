@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     strategy:
-      max-parallel: 8
       matrix:
         number: [57]
     steps:
@@ -22,63 +21,39 @@ jobs:
     - name: Create and Save ID File
       run: |
         wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.txt
-        wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.mp3
-        python main.py ${{ matrix.number }}
-        #date +%s > output_${{ matrix.number }}.dat
-        
-    - name: Push to GitHub (Attempt 1)
-      id: push_attempt_1
-      if: always()
-      run: |
-        git clone --single-branch --branch test https://mooghen2s:${{ secrets.TOKEN }}@github.com/mooghen2s/data.git
-        cp output_${{ matrix.number }}.dat data/output_${{ matrix.number }}.dat
-        
-        cd data
-        date +%s > README.md
-        echo output_${{ matrix.number }} >> README.md
-        git config --global user.name "mooghen2s"
-        git config --global user.email "juaimahen.a52@gmail.com"
-        git add 'output_${{ matrix.number }}.dat' 'README.md'
-        git commit -m "test ${{ matrix.number }}"
-        git push -f 
-        sleep 2
-    - name: Push to GitHub (Attempt 2)
-      id: push_attempt_2
-      if: ${{ failure() && steps.push_attempt_1.conclusion == 'failure' }}
-      env:
-          matrix_number: ${{ matrix.number }}
-      run: |
-        cd data
-        date +%s >> README.md
-        sleep 4
-        git push -f
-    - name: Push to GitHub (Attempt 3)
-      id: push_attempt_3
-      if: ${{ failure() && steps.push_attempt_2.conclusion == 'failure' }}
-      env:
-          matrix_number: ${{ matrix.number }}
-      run: |
-        cd data
-        sleep 6
-        date +%s >> README.md
-        git push -f
-    - name: Push to GitHub (Attempt 4)
-      id: push_attempt_4
-      if: ${{ failure() && steps.push_attempt_3.conclusion == 'failure' }}
-      env:
-          matrix_number: ${{ matrix.number }}
-      run: |
-        cd data
-        sleep 8
-        date +%s >> README.md
-        git push -f
-    - name: Push to GitHub (Attempt 5)
-      id: push_attempt_5
-      if: ${{ failure() && steps.push_attempt_4.conclusion == 'failure' }}
-      env:
-          matrix_number: ${{ matrix.number }}
-      run: |
-        cd data
-        sleep 10
-        date +%s >> README.md
-        git push -f
+        wget https://raw.githubusercontent.com/mooghen2s/data/top_mp3/top_tier_edge/output_${{ matrix.number }}.mp3
+        #python main.py ${{ matrix.number }}
+        ls
+        date +%s > output_${{ matrix.number }}.dat
+    - name: Upload File to GitHub
+      uses: actions/upload-artifact@v4
+      with:
+        name: output_${{ matrix.number }}.dat
+        path: output_${{ matrix.number }}.dat
+  up_file:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    needs: parallel-jobs
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+      - name: test
+        id: ot_ran
+        run:  echo "ta_for_release=$(date +%s)" >> $GITHUB_OUTPUT
+      - name: Build project # This would actually build your project, using zip for an example artifact
+        run: |
+          zip -r build.zip out/
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        #if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: build.zip
+          token: ${{ secrets.TOKEN }}
+          tag_name: v1.${{ steps.ot_ran.outputs.ta_for_release }}
+          name: Release rhubarb dat v1.${{ steps.ot_ran.outputs.ta_for_release }}
+          draft: false
+          prerelease: false
+      
