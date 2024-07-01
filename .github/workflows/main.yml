@@ -20,8 +20,8 @@ jobs:
         sudo apt install ffmpeg -y
     - name: Create and Save ID File
       run: |
-        wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.txt
-        wget https://raw.githubusercontent.com/mooghen2s/data/top_mp3/top_tier_edge/output_${{ matrix.number }}.mp3
+        #wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.txt
+        #wget https://raw.githubusercontent.com/mooghen2s/data/top_mp3/top_tier_edge/output_${{ matrix.number }}.mp3
         #python main.py ${{ matrix.number }}
         ls
         date +%s > output_${{ matrix.number }}.dat
