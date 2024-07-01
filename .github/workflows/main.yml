@@ -22,13 +22,13 @@ jobs:
       run: |
         wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.txt
         wget https://raw.githubusercontent.com/mooghen2s/data/top_mp3/output_${{ matrix.number }}.mp3
-        python main.py ${{ matrix.number }}
+        #python main.py ${{ matrix.number }}
         ls
-        #date +%s > output_${{ matrix.number }}.dat
+        date +%s > output_${{ matrix.number }}.dat
     - name: Upload File to GitHub
       uses: actions/upload-artifact@v4
       with:
-        name: output_${{ matrix.number }}.dat
+        name: files_${{ matrix.number }}
         path: output_${{ matrix.number }}.dat
   up_file:
     continue-on-error: true
