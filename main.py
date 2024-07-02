@@ -1,10 +1,25 @@
+import edge_tts
 import os
 import subprocess
 import argparse
 def main() -> None:
+  if not os.path.exists('out'):
+    os.makedirs('out')
   dialog_file = f'output_{number_file}.txt'
-  output_dat = f'output_{number_file}.dat'
-  audio = f'output_{number_file}.mp3'
+  OUTPUT_FILE = f'out/output_{number_file}.mp3'
+  with open(dialog_file, 'r', encoding='utf-8') as re_file:
+    TEXT = re_file.read()
+  VOICE = "zh-CN-YunxiaNeural"
+  communicate = edge_tts.Communicate(str(TEXT), VOICE, rate="-10%")
+  with open(OUTPUT_FILE, "wb") as file:
+    for chunk in communicate.stream_sync():
+      if chunk["type"] == "audio":
+        file.write(chunk["data"])
+      elif chunk["type"] == "WordBoundary":
+        continue
+  dialog_file = f'output_{number_file}.txt'
+  output_dat = f'out/output_{number_file}.dat'
+  audio = f'out/output_{number_file}.mp3'
   audio_ogg = f'output_{number_file}.ogg'
   command = [
       'ffmpeg', '-y',
