@@ -17,7 +17,8 @@ jobs:
       with:
         python-version: '3.8' 
     - run: |
-        sudo apt install ffmpeg -y
+        sudo apt -qq install ffmpeg -y
+        pip install -q edge-tts
     - name: Create and Save ID File
       run: |
         wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.txt
