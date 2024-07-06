@@ -1,7 +1,6 @@
 import subprocess
 import json
 import requests
-from bs4 import BeautifulSoup
 
 def scrape_and_save_text(url, file_name):
     try:
