@@ -18,8 +18,8 @@ jobs:
         python-version: '3.8' 
     - run: |
         mkdir out
-        wget https://raw.githubusercontent.com/mooghen2s/data_top/test_edge/main.py
-        wget https://raw.githubusercontent.com/mooghen2s/data_top/test_edge/top_tier.json
+        Invoke-WebRequest "https://raw.githubusercontent.com/mooghen2s/data_top/test_edge/main.py" -OutFile "main.py"
+        Invoke-WebRequest "https://raw.githubusercontent.com/mooghen2s/data_top/test_edge/top_tier.json" -OutFile "top_tier.json"
         pip install -q requests
     - name: Create and Save ID File
       run: |
