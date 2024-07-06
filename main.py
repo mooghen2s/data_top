@@ -1,25 +1,30 @@
-import edge_tts
-import os
-import shutil
-import argparse
-def main() -> None:
-  dialog_file = f'output_{number_file}.txt'
-  OUTPUT_FILE = f'output_{number_file}.mp3'
-  with open(dialog_file, 'r', encoding='utf-8') as re_file:
-    TEXT = re_file.read()
-  VOICE = "zh-CN-YunxiaNeural"
-  communicate = edge_tts.Communicate(str(TEXT), VOICE, rate="-10%")
-  with open(OUTPUT_FILE, "wb") as file:
-    for chunk in communicate.stream_sync():
-      if chunk["type"] == "audio":
-        file.write(chunk["data"])
-      elif chunk["type"] == "WordBoundary":
-        continue
+import subprocess
+import json
+import requests
+from bs4 import BeautifulSoup
 
-  
-if __name__ == "__main__":
-  parser = argparse.ArgumentParser(description='Nonton YouTube dengan profil tertentu.')
-  parser.add_argument('profile_number', help='Nomor profil yang akan digunakan')
-  args = parser.parse_args()
-  number_file = args.profile_number
-  main()
+def scrape_and_save_text(url, file_name):
+    try:
+        chrome_path = r"C:/Program Files/Google/Chrome/Application/chrome.exe"
+        command = [
+            chrome_path,
+            "--headless",
+            "--dump-dom",
+            url
+        ]
+        with open(file_name, 'w') as f:
+            subprocess.run(command, stdout=f)
+    except requests.exceptions.RequestException as e:
+        print(f"Error: {e}")
+        return False
+
+with open('top_tier.json', 'r') as file:
+    data = json.load(file)
+    for item in data:
+        url_from_json = item['url']
+        file_name = f"top_tier_audio/{item['number']}.txt"  # Adjust file naming as needed
+        url = f'{url_from_json}'
+        if scrape_and_save_text(url, file_name):
+            print(f"Scraping untuk {file_name} selesai!")
+        else:
+            print(f"Scraping untuk {url} gagal. Silakan periksa kode dan URL.")
