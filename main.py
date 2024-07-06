@@ -4,15 +4,13 @@ import requests
 
 def scrape_and_save_text(url, file_name):
     try:
-        chrome_path = r"C:/Program Files/Google/Chrome/Application/chrome.exe"
         command = [
-            chrome_path,
-            "--headless",
-            "--dump-dom",
-            url
+            'powershell',
+            'Invoke-WebRequest',
+            '-Uri', url,
+            '-OutFile', file_name
         ]
-        with open(file_name, 'w') as f:
-            subprocess.run(command, stdout=f)
+        subprocess.run(command)
     except requests.exceptions.RequestException as e:
         print(f"Error: {e}")
         return False
@@ -23,7 +21,4 @@ with open('top_tier.json', 'r') as file:
         url_from_json = item['url']
         file_name = f"out/{item['number']}.txt"  # Adjust file naming as needed
         url = f'{url_from_json}'
-        if scrape_and_save_text(url, file_name):
-            print(f"Scraping untuk {file_name} selesai!")
-        else:
-            print(f"Scraping untuk {url} gagal. Silakan periksa kode dan URL.")
+        scrape_and_save_text(url, file_name)
