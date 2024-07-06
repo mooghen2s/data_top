@@ -17,7 +17,8 @@ jobs:
       with:
         python-version: '3.8' 
     - run: |
-        pip install -q edge-tts
+        mkdir out
+        pip install -q requests
     - name: Create and Save ID File
       run: |
         python main.py
@@ -25,8 +26,8 @@ jobs:
     - name: Upload File to GitHub
       uses: actions/upload-artifact@v4
       with:
-        name: top_tier_audio
-        path: top_tier_audio
+        name: out
+        path: out
   up_file:
     continue-on-error: true
     runs-on: ubuntu-latest
