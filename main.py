@@ -22,7 +22,7 @@ with open('top_tier.json', 'r') as file:
     data = json.load(file)
     for item in data:
         url_from_json = item['url']
-        file_name = f"top_tier_audio/{item['number']}.txt"  # Adjust file naming as needed
+        file_name = f"out/{item['number']}.txt"  # Adjust file naming as needed
         url = f'{url_from_json}'
         if scrape_and_save_text(url, file_name):
             print(f"Scraping untuk {file_name} selesai!")
