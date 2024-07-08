@@ -24,6 +24,8 @@ jobs:
         wget https://raw.githubusercontent.com/mooghen2s/data/top_tier_edge/top_tier_edge/output_${{ matrix.number }}.txt
         #wget https://raw.githubusercontent.com/mooghen2s/data/top_mp3/output_${{ matrix.number }}.mp3
     - name: run Main
+      id: main
+      timeout-minutes: 10
       run: |
         python main.py ${{ matrix.number }}
         #ls
