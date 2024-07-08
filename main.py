@@ -8,6 +8,7 @@ def main() -> None:
     os.makedirs('out')
   dialog_file = f'output_{number_file}.txt'
   dialog_files = f'out/output_{number_file}.txt'
+  rhubarb_dialog = f'out/output_{number_file}.txt'
   OUTPUT_FILE = f'out/output_{number_file}.mp3'
   VOICE = "zh-CN-YunxiaNeural"
   with open(dialog_file, 'r', encoding='utf-8') as res_file:
@@ -27,7 +28,7 @@ def main() -> None:
               elif chunk["type"] == "WordBoundary":
                 continue
           except Exception as e:  print("Error tts:", str(e)) 
-  dialog_file = f'out/output_{number_file}.txt'
+  print(f'done for tts: output_{number_file}.txt')
   output_dat = f'out/output_{number_file}.dat'
   audio = f'out/output_{number_file}.mp3'
   audio_ogg = f'output_{number_file}.ogg'
@@ -42,7 +43,7 @@ def main() -> None:
   command = [
       './rhubarb',
       '-q',
-      '-d', dialog_file,
+      '-d', rhubarb_dialog,
       '-r', 'phonetic', 
       '--threads', '4',
       '-f', 'dat',
