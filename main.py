@@ -7,9 +7,15 @@ def main() -> None:
   if not os.path.exists('out'):
     os.makedirs('out')
   dialog_file = f'output_{number_file}.txt'
+  dialog_files = f'out/output_{number_file}.txt'
   OUTPUT_FILE = f'out/output_{number_file}.mp3'
   VOICE = "zh-CN-YunxiaNeural"
-  with open(dialog_file, 'r', encoding='utf-8') as re_file:
+  with open(dialog_file, 'r', encoding='utf-8') as res_file:
+    with open(dialog_files, 'w', encoding='utf-8') as file:
+      for linex in res_file:
+        if re.search(r'[a-zA-Z0-9]', linex):
+          file.write(linex)
+  with open(dialog_files, 'r', encoding='utf-8') as re_file:
     with open(OUTPUT_FILE, "wb") as au_file:
       for line in re_file:
         if re.search(r'[a-zA-Z0-9]', line):
@@ -20,8 +26,8 @@ def main() -> None:
                 au_file.write(chunk["data"])
               elif chunk["type"] == "WordBoundary":
                 continue
-          except Exception as e:  print("Error:", str(e)) 
-  dialog_file = f'output_{number_file}.txt'
+          except Exception as e:  print("Error tts:", str(e)) 
+  dialog_file = f'out/output_{number_file}.txt'
   output_dat = f'out/output_{number_file}.dat'
   audio = f'out/output_{number_file}.mp3'
   audio_ogg = f'output_{number_file}.ogg'
