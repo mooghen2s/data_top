@@ -15,7 +15,10 @@ def main() -> None:
     with open(dialog_files, 'w', encoding='utf-8') as file:
       for linex in res_file:
         if re.search(r'[a-zA-Z0-9]', linex):
-          file.write(linex)
+          text_target = '…'
+          text_replace = ''
+          html_content = lines.replace(text_target, text_replace)
+          file.write(html_content)
   with open(dialog_files, 'r', encoding='utf-8') as re_file:
     with open(OUTPUT_FILE, "wb") as au_file:
       for line in re_file:
